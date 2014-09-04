@@ -1,0 +1,42 @@
+# Base EditorConfig for ~
+# top-most EditorConfig file
+root = true
+
+# Unix-style newlines with a newline ending every file
+[*]
+end_of_line = lf
+charset = utf-8
+insert_final_newline = true
+trim_trailing_whitespace = true
+indent_style = space
+indent_size = 2
+
+# CSS
+[*.css]
+indent_style = space
+indent_size = 2
+
+# HTML
+[*.html]
+indent_style = space
+indent_size = 2
+
+# Processing
+[*.pde]
+indent_style = space
+indent_size = 2
+
+# Ruby
+[*.rb]
+indent_style = space
+indent_size = 2
+
+# Jade
+[*.jade]
+trim_trailing_whitespace = false
+
+
+# # filename example
+# [{package.json,.travis.yml}]
+# indent_style = space
+# indent_size = 2

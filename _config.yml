@@ -1,5 +1,5 @@
 # Site settings
-baseurl: "/drawing/" # the subpath of your site, e.g. /blog/
+baseurl: "/pfordrawing/" # the subpath of your site, e.g. /blog/
 permalinks: none
 repo: "https://github.com/amonks/drawing"
 

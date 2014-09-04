@@ -5,7 +5,9 @@
 <head>
   <title>{{page.title}}</title>
 
-  <script src='http://cdnjs.cloudflare.com/ajax/libs/processing.js/1.4.1/processing-api.min.js'></script>
+  <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap.min.css">
+
+  <script src='//cdnjs.cloudflare.com/ajax/libs/processing.js/1.4.1/processing-api.min.js'></script>
 
   <style>
   html,
@@ -19,6 +21,31 @@
 </head>
 
 <body>
+  <!-- Fixed navbar -->
+  <div class="navbar navbar-default navbar-fixed-top" role="navigation">
+    <div class="container">
+      <div class="navbar-header">
+        <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target=".navbar-collapse">
+          <span class="sr-only">Toggle navigation</span>
+          <span class="icon-bar"></span>
+          <span class="icon-bar"></span>
+          <span class="icon-bar"></span>
+        </button>
+        <div class="navbar-brand">
+          <a href={{baseurl}}>Programming For Drawing</a>
+        </div>
+      </div>
+      <div class="navbar-collapse collapse">
+        <ul class="nav navbar-nav">
+          <li><a href="#">{{page.title}}</a></li>
+          <li><a href={{site.repo}}/blob/gh-pages/_posts/{{page.filename}}>Source Code</a></li>
+          <li><a href={{site.repo}}/commits/gh-pages/_posts/{{page.filename}}>Revision History</a></li>
+          <li><a href="//monks.co">Andrew Monks</a></li>
+        </ul>
+      </div>
+    </div>
+  </div>
+
   <canvas id='sketch'></canvas>
   <script id='script'>
   /*global window, document, Processing */
@@ -33,7 +60,7 @@
     // set size
     processing.size(width, height);
 
-    {{ content }}
+    {{content}}
   }
 
   // attach the sketch function to the canvas
