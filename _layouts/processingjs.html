@@ -143,7 +143,7 @@
   </div>
 
   <div id="snap-content">
-    <canvas id='sketch'></canvas>
+    <canvas id='sketch' data-snap-ignore="true"></canvas>
     <div id="bottom">
       <div id="title" class="corner">{{page.title}}</div>
       <div id="date" class="corner">{{page.date}}</div>
@@ -164,20 +164,25 @@
 <script type="text/javascript">try{Typekit.load();}catch(e){}</script>
 
 <script>
-  /*global window, document, Processing, $, Snap */
-  //- slide-in.js
-  var snapper = new Snap({
-      element: document.getElementById('snap-content'),
-      resistance: 0.8,
-      tapToClose: 'false',
-      maxPosition: 500,
-      disable: 'right',
-      minPosition: -500
-  });
-  $('#source-code').click(function() {
+/*global window, document, Processing, $, Snap */
+//- slide-in.js
+var snapper = new Snap({
+  element: document.getElementById('snap-content'),
+  resistance: 0.8,
+  tapToClose: 'false',
+  maxPosition: 500,
+  disable: 'right',
+  minPosition: -500
+});
+$('#source-code').click(function() {
+  if (snapper.state().state === "left") {
+    snapper.close();
+  } else {
     snapper.open('left');
-  });
+  }
+});
 </script>
+
 
 <script id='script'>
 var width = window.innerWidth;
