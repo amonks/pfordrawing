@@ -1,8 +1,8 @@
 # Site settings
-baseurl: "/pfordrawing" # run `jekyll serve --baseurl "" locally
+baseurl: ""
 permalinks: none
 repo: "https://github.com/amonks/pfordrawing"
-title: "Programming For Drawing"
+title: "Processing.org"
 
 links:
   - name: painter
