@@ -29,6 +29,7 @@ require "date"
     end
 
     opt.on("-h","--help","Display this message") do
+      options[:help] = true
       puts opt_parser
     end
   end
@@ -36,7 +37,7 @@ require "date"
   opt_parser.parse!
 
   unless ARGV[0].is_a? String
-    puts opt_parser
+    puts opt_parser unless options[:help]
   else
     title = options[:title] || ARGV[0]
     category = options[:category] || "flowchart"
@@ -68,7 +69,6 @@ require "date"
       "\n" +
       "};"
     if options[:make]
-      filename = options[:filename] || ARGV[0]
       `echo '#{template}' > _posts/#{Date.today.to_s}-#{ARGV[0]}.html`
     else
       puts template
