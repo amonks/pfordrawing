@@ -1,7 +1,7 @@
 # Site settings
 baseurl: "/pfordrawing/" # the subpath of your site, e.g. /blog/
 permalinks: none
-repo: "https://github.com/amonks/drawing"
+repo: "https://github.com/amonks/pfordrawing"
 
 # Build settings
 markdown: kramdown
