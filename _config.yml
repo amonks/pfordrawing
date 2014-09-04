@@ -1,5 +1,5 @@
 # Site settings
-baseurl: "" # the subpath of your site, e.g. /blog/
+baseurl: "/pforsound" # the subpath of your site, e.g. /blog/
 permalinks: none
 repo: "https://github.com/amonks/pfordrawing"
 
