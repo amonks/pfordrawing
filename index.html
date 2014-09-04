@@ -15,7 +15,9 @@ title: "Programming For Drawing"
           {% if post.url %}
             <li>
               <h3>
-                <a class="post-link" href="{{ post.url | prepend: site.baseurl }}">{{ post.title }} <span class="post-meta small">{{ post.date | date: "%b %-d, %Y" }}</span></a>
+                <a href="{{ post.url | prepend: site.baseurl }}">
+                  {{ post.title + " " }} 
+                  <span class="post-meta small">{{ post.date | date: "%b %-d, %Y" }}</span></a>
               </h2>
             </li>
           {% endif %}
@@ -23,5 +25,14 @@ title: "Programming For Drawing"
       {% endfor %}
     </ul>
   {% endfor %}
-
+  <h2>Links</h2>
+  <ul>
+    {% for link in site.links %}
+      <li>
+        <h3>
+          <a href={{link.url}}>{{link.name}}</a>
+        </h3>
+      </li>
+    {% endfor %}
+  </ul>
 </div>

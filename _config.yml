@@ -4,5 +4,13 @@ permalinks: none
 repo: "https://github.com/amonks/pfordrawing"
 title: "Programming For Drawing"
 
+links:
+  - name: painter
+    url: "http://amonks.github.io/painter/"
+  - name: "blank procesisng.js sketch"
+    url: "blank.txt"
+  - name: "license"
+    url: "LICENSE.html"
+
 # Build settings
 markdown: kramdown
