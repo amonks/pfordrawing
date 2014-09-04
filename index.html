@@ -5,7 +5,7 @@ title: "Programming For Drawing"
 
 <div class="home">
 
-  <h1 class="page-heading">Projects</h1>
+  <h1>Projects</h1>
 
   {% for category in site.categories %}
     <h2>{{ category | first }}</h2>
@@ -17,7 +17,7 @@ title: "Programming For Drawing"
               <h3>
                 <a href="{{ post.url | prepend: site.baseurl }}">
                   {{ post.title + " " }} 
-                  <span class="post-meta small">{{ post.date | date: "%b %-d, %Y" }}</span></a>
+                  <span class="small">{{ post.date | date: "%b %-d, %Y" }}</span></a>
               </h2>
             </li>
           {% endif %}
@@ -25,7 +25,7 @@ title: "Programming For Drawing"
       {% endfor %}
     </ul>
   {% endfor %}
-  <h2>Links</h2>
+  <h1>Links</h1>
   <ul>
     {% for link in site.links %}
       <li>
