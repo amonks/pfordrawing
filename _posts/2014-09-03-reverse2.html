@@ -1,0 +1,22 @@
+---
+layout: processingjs
+title:  "reverse engineering 2"
+date:   2014-09-03 19:15:51
+categories: processing-js
+---
+
+var steps = 255;
+var stepSize = width / 255.0;
+var r = 0;
+
+processing.setup = function() {
+  processing.background(0);
+  processing.stroke(255);
+};
+processing.draw = function() {
+  r++;
+  var step = r % 255;
+  processing.background(0);
+  processing.fill(r % 255, 0, 0);
+  processing.ellipse(halfWidth, halfHeight, step * stepSize, step * stepSize);
+};

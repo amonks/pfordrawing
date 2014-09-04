@@ -1,0 +1,7 @@
+# Site settings
+baseurl: "/drawing/" # the subpath of your site, e.g. /blog/
+permalinks: none
+repo: "https://github.com/amonks/drawing"
+
+# Build settings
+markdown: kramdown

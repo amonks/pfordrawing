@@ -1,0 +1,28 @@
+---
+layout: processingjs
+title:  "flowchart 1"
+date:   2014-09-03 19:15:51
+categories: processing-js
+---
+
+processing.setup = function() {
+  processing.stroke(255);
+};
+
+processing.keyPressed = function() {
+  processing.background(0,255,255);
+};
+
+processing.mousePressed = function() {
+  processing.stroke(0);
+  console.log('mouse pressed!');
+};
+
+processing.mouseReleased = function() {
+  processing.stroke(255);
+  console.log('mouse released!');
+};
+
+processing.draw = function() {
+  processing.point(processing.mouseX, processing.mouseY);
+};

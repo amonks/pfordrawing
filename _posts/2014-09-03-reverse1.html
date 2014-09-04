@@ -1,0 +1,25 @@
+---
+layout: processingjs
+title:  "reverse engineering 1"
+date:   2014-08-27 19:15:51
+file: "2014-09-03-reverse1.html"
+categories: processing-js
+---
+
+processing.setup = function() {
+  processing.background(255);
+  processing.fill(255, 0, 0);
+  processing.stroke(0);
+};
+
+processing.mousePressed = function() {
+  if (processing.mouseX < halfWidth) {
+    processing.ellipse(processing.mouseX, processing.mouseY, 50, 50);
+  } else {
+    processing.rect(processing.mouseX, processing.mouseY, 50, 50);
+  }
+};
+
+processing.keyPressed = function() {
+  processing.background(0);
+};
