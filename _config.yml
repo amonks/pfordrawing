@@ -5,7 +5,9 @@ repo: "https://github.com/amonks/pfordrawing"
 title: "Processing Sketches"
 
 links:
-  - name: painter
+  - name: "Andrew Monks"
+    url: "http://monks.co"
+  - name: "paint sketch"
     url: "http://amonks.github.io/painter/"
   - name: "blank procesisng.js sketch"
     url: "blank.txt"
