@@ -1,0 +1,122 @@
+
+<!doctype html>
+
+<html>
+
+<head>
+  <title>reverse engineering 2</title>
+
+  <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap.min.css">
+  <style>
+  html,
+  body {
+    margin: 0;
+    padding: 0;
+    width: 100%;
+    height: 100%;
+    overflow:hidden;
+    background-color: #000;
+  }
+  #bottom {
+    opacity: 0.7;
+    width: 100%;
+    background-color: #000;
+    color: #fff;
+    font-size: 12px;
+    font-family: "inconsolatas", Consolas, monaco, monospace;
+    position: absolute;
+    margin: 0;
+    bottom: 0;
+    height: 1.5em;
+    pointer-events:none;
+  }
+  .corner {
+    position: absolute;
+    height: 100%;
+    padding-left: 3px;
+    padding-right: 3px;
+    padding-bottom: 3px;
+    margin: 0;
+  }
+  #title {
+    left: 0;
+  }
+  #date {
+    right: 0;
+  }
+  </style>
+</head>
+
+<body>
+
+  <script src='//code.jquery.com/jquery-2.1.1.min.js'></script>
+  <script src='//maxcdn.bootstrapcdn.com/bootstrap/3.2.0/js/bootstrap.min.js'></script>
+  <script src='//cdnjs.cloudflare.com/ajax/libs/processing.js/1.4.1/processing-api.min.js'></script>
+  <script type="text/javascript" src="//use.typekit.net/jww7sgi.js"></script>
+  <script type="text/javascript">try{Typekit.load();}catch(e){}</script>
+  <!-- Fixed navbar -->
+  <div class="navbar navbar-default navbar-fixed-top" role="navigation">
+    <div class="container">
+      <div class="navbar-header">
+        <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target=".navbar-collapse">
+          <span class="sr-only">Toggle navigation</span>
+          <span class="icon-bar"></span>
+          <span class="icon-bar"></span>
+          <span class="icon-bar"></span>
+        </button>
+        <div class="navbar-brand">
+          <a href=/>Processing Sketches</a>
+        </div>
+      </div>
+      <div class="navbar-collapse collapse">
+        <ul class="nav navbar-nav">
+          <li><a href=https://github.com/amonks/pfordrawing/blob/gh-pages/_posts/2014-09-03-reverse2.html>Source Code</a></li>
+          <li><a href=https://github.com/amonks/pfordrawing/commits/gh-pages/_posts/2014-09-03-reverse2.html>Revision History</a></li>
+        </ul>
+      </div>
+    </div>
+  </div>
+  <div id="bottom">
+    <div id="title" class="corner">reverse engineering 2</div>
+    <div id="date" class="corner">2014-09-03 19:15:51 +0000</div>
+  </div>
+
+  <canvas id='sketch'></canvas>
+  <script id='script'>
+  /*global window, document, Processing */
+  var width = window.innerWidth;
+  var height = $("body").height() - 3;
+  var halfWidth = width / 2;
+  var halfHeight = height / 2;
+
+  function drawerSketch(processing) {
+    'use strict';
+
+    // set size
+    processing.size(width, height);
+
+    var steps = 255;
+var stepSize = width / 255.0;
+var r = 0;
+
+processing.setup = function() {
+  processing.background(0);
+  processing.stroke(255);
+};
+processing.draw = function() {
+  r++;
+  var step = r % steps;
+  processing.background(0);
+  processing.fill(r % steps, 0, 0);
+  processing.ellipse(halfWidth, halfHeight, step * stepSize, step * stepSize);
+};
+
+  }
+
+  // attach the sketch function to the canvas
+  var processingInstance = new Processing(document.getElementById('sketch'), drawerSketch);
+  </script>
+</body>
+
+
+</html>

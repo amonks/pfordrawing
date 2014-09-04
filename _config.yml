@@ -1,6 +1,6 @@
 # Site settings
 baseurl: ""
-permalinks: none
+permalink: /:title/
 repo: "https://github.com/amonks/pfordrawing"
 title: "Processing Sketches"
 
