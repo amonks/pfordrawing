@@ -6,16 +6,17 @@ require "date"
   options = {}
 
   opt_parser = OptionParser.new do |opt|
-    opt.banner = "Usage: generate FILENAME [OPTIONS]"
+    opt.banner = "Usage: ruby ./generate.rb FILENAME [OPTIONS]"
     opt.separator  ""
     opt.separator  "FILENAME: post filename, ie 'reverse2'"
+    opt.separator  ""
     opt.separator  "Options"
 
     # opt.on("--category CATEGORY", "-c CATEGORY", "Set post category to CATEGORY") do |category|
     #   options[:category] = category
     # end
 
-    opt.on("-m","--make","Create file in `_posts`") do
+    opt.on("-m","--make","Create file in _posts/ (default is to print to stdout)") do
       options[:make] = true
     end
 
