@@ -16,13 +16,18 @@ opt_parser = OptionParser.new do |opt|
   #   options[:category] = category
   # end
 
-  opt.on("-p","--post","Create file in _posts/ (default is to print to stdout)") do
+  opt.on("-p","--post","Create file in _posts/ and open it in Sublime Text (default is to print to stdout)") do
     options[:post] = true
   end
 
-  opt.on("-d","--draft","Create file in _drafts/ (default is to print to stdout)") do
+  opt.on("-d","--draft","Create file in _drafts/ and open it in Sublime Text (default is to print to stdout)") do
     options[:draft] = true
   end
+
+  opt.on("-n","--no-open","--no_open","Do not open a created draft or post in Sublime Text") do
+    options[:no_open] = true
+  end
+
 
   opt.on("-t TITLE","--title TITLE","Set post title (defaults to filename)") do |title|
     options[:title] = title
@@ -75,8 +80,12 @@ else
     "};"
   if options[:post]
     %x( echo '#{template}' > _posts/#{filename} )
+    %x( subl _posts/#{filename} ) unless options[:no_open]
+    puts "Created _posts/" + filename
   elsif options[:draft]
     %x( echo '#{template}' > _drafts/#{filename} )
+    %x( subl _drafts/#{filename} ) unless options[:no_open]
+    puts "Created _drafts/" + filename
   else
     puts template
   end
