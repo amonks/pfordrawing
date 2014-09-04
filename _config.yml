@@ -2,7 +2,7 @@
 baseurl: ""
 permalink: /:title/
 repo: "https://github.com/amonks/pfordrawing"
-title: "Processing Sketches"
+title: "Andrew's Processing Sketches"
 
 links:
   - name: "Andrew Monks"
