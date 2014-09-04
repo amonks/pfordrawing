@@ -2,7 +2,7 @@
 baseurl: ""
 permalinks: none
 repo: "https://github.com/amonks/pfordrawing"
-title: "Processing.org"
+title: "Processing Sketches"
 
 links:
   - name: painter
