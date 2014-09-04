@@ -8,17 +8,15 @@ title: "Programming For Drawing"
   <h1 class="page-heading">Posts</h1>
 
   {% for category in site.categories %}
-  <li><a name="{{ category | first }}">{{ category | first }}</a>
-    <ul>
-      {% for posts in category %} {% for post in posts %}
-      <li>
-        <h2>
-          <a class="post-link" href="{{ post.url | prepend: site.baseurl }}">{{ post.title }} <span class="post-meta small">{{ post.date | date: "%b %-d, %Y" }}</span></a>
-        </h2>
-      </li>
-      {% endfor %} {% endfor %}
-    </ul>
-  </li>
+  <ul>
+    {% for posts in category %} {% for post in posts %}
+    <li>
+      <h2>
+        <a class="post-link" href="{{ post.url | prepend: site.baseurl }}">{{ post.title }} <span class="post-meta small">{{ post.date | date: "%b %-d, %Y" }}</span></a>
+      </h2>
+    </li>
+    {% endfor %} {% endfor %}
+  </ul>
   {% endfor %}
 
 </div>
