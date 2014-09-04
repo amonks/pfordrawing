@@ -1,7 +1,9 @@
 # Site settings
-baseurl: "/pfordrawing" # the subpath of your site, e.g. /blog/
+# baseurl: "/pfordrawing" # server
+baseurl: "" # local
 permalinks: none
 repo: "https://github.com/amonks/pfordrawing"
+title: "Programming For Drawing"
 
 # Build settings
 markdown: kramdown

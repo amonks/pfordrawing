@@ -6,10 +6,6 @@
   <title>{{page.title}}</title>
 
   <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap.min.css">
-  <script src='//code.jquery.com/jquery-2.1.1.min.js'></script>
-  <script src='//maxcdn.bootstrapcdn.com/bootstrap/3.2.0/js/bootstrap.min.js'></script>
-  <script src='//cdnjs.cloudflare.com/ajax/libs/processing.js/1.4.1/processing-api.min.js'></script>
-
   <style>
   html,
   body {
@@ -17,11 +13,44 @@
     padding: 0;
     width: 100%;
     height: 100%;
+    overflow:hidden;
+    background-color: #000;
+  }
+  #bottom {
+    width: 100%;
+    background-color: #000;
+    color: #fff;
+    font-size: 12px;
+    font-family: "inconsolatas", Consolas, monaco, monospace;
+    position: absolute;
+    margin: 0;
+    bottom: 0;
+    height: 1.5em;
+  }
+  .corner {
+    position: absolute;
+    height: 100%;
+    padding-left: 3px;
+    padding-right: 3px;
+    padding-bottom: 3px;
+    margin: 0;
+  }
+  #title {
+    left: 0;
+  }
+  #date {
+    right: 0;
   }
   </style>
 </head>
 
 <body>
+
+  <script src='//code.jquery.com/jquery-2.1.1.min.js'></script>
+  <script src='//maxcdn.bootstrapcdn.com/bootstrap/3.2.0/js/bootstrap.min.js'></script>
+  <script src='//cdnjs.cloudflare.com/ajax/libs/processing.js/1.4.1/processing-api.min.js'></script>
+  <script type="text/javascript" src="//use.typekit.net/jww7sgi.js"></script>
+  <script type="text/javascript">try{Typekit.load();}catch(e){}</script>
   <!-- Fixed navbar -->
   <div class="navbar navbar-default navbar-fixed-top" role="navigation">
     <div class="container">
@@ -33,24 +62,27 @@
           <span class="icon-bar"></span>
         </button>
         <div class="navbar-brand">
-          <a href="#">{{page.title}}</a>
+          <a href="/">{{site.title}}</a>
         </div>
       </div>
       <div class="navbar-collapse collapse">
         <ul class="nav navbar-nav">
           <li><a href={{site.repo}}/blob/gh-pages/_posts/{{page.filename}}>Source Code</a></li>
           <li><a href={{site.repo}}/commits/gh-pages/_posts/{{page.filename}}>Revision History</a></li>
-          <li><a href="//monks.co">Andrew Monks</a></li>
         </ul>
       </div>
     </div>
+  </div>
+  <div id="bottom">
+    <div id="title" class="corner">{{page.title}}</div>
+    <div id="date" class="corner">{{page.date}}</div>
   </div>
 
   <canvas id='sketch'></canvas>
   <script id='script'>
   /*global window, document, Processing */
   var width = window.innerWidth;
-  var height = window.innerHeight;
+  var height = $("body").height() - 3;
   var halfWidth = width / 2;
   var halfHeight = height / 2;
 
@@ -67,5 +99,6 @@
   var processingInstance = new Processing(document.getElementById('sketch'), drawerSketch);
   </script>
 </body>
+
 
 </html>
