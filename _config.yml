@@ -1,6 +1,6 @@
 # Site settings
-# baseurl: "/pfordrawing" # server
-baseurl: "" # local
+baseurl: "/pfordrawing" # server
+# baseurl: "" # local
 permalinks: none
 repo: "https://github.com/amonks/pfordrawing"
 title: "Programming For Drawing"
