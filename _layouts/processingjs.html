@@ -8,9 +8,12 @@
   <title>{{page.title}}</title>
 
   <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap.min.css">
+  <link rel="stylesheet" href="/css/syntax.css">
   <style>
   html,
-  body {
+  body,
+  #snap-content,
+  #sketch {
     margin: 0;
     padding: 0;
     width: 100%;
@@ -45,6 +48,11 @@
   #date {
     right: 0;
   }
+  pre, .highlight, code {
+    width: 100%;
+    border: 0;
+    height: 100%;
+  }
   #snap-content {
     position: absolute;
     top: 0;
@@ -63,6 +71,7 @@
     transform: translate3d(0, 0, 0);
   }
   .snap-drawers {
+    background-color: #f5f5f5;
     position: absolute;
     top: 0;
     right: 0;
@@ -87,6 +96,9 @@
     transition: width 0.3s ease;
   }
   .snap-drawer-left {
+    width: 500px;
+    height: 100%;
+    margin-top: 50px;
     left: 0;
     z-index: 1;
   }
@@ -123,19 +135,19 @@
       </div>
       <div class="navbar-collapse collapse">
         <ul class="nav navbar-nav">
-          <li><a href={{site.repo}}/blob/gh-pages/_posts/{{page.filename}}>Source Code</a></li>
+          <li><a href="#" id="source-code">Source Code</a></li>
           <li><a href={{site.repo}}/commits/gh-pages/_posts/{{page.filename}}>Revision History</a></li>
         </ul>
       </div>
     </div>
   </div>
-  <div id="bottom">
-    <div id="title" class="corner">{{page.title}}</div>
-    <div id="date" class="corner">{{page.date}}</div>
-  </div>
 
   <div id="snap-content">
     <canvas id='sketch'></canvas>
+    <div id="bottom">
+      <div id="title" class="corner">{{page.title}}</div>
+      <div id="date" class="corner">{{page.date}}</div>
+    </div>
   </div>
 
   <div class="snap-drawer-left">
@@ -158,8 +170,8 @@
       element: document.getElementById('snap-content'),
       resistance: 0.8,
       tapToClose: 'false',
-      maxPosition: 400,
-      minPosition: -400
+      maxPosition: 500,
+      minPosition: -500
   });
   $('#source-code').click(function() {
     snapper.open('left');
