@@ -17,6 +17,7 @@ processing.setup = function() {
 processing.draw = function() {
   r++;
   var step = r % steps;
+  processing.background(0);
   processing.fill(r % steps, 0, 0);
   processing.ellipse(halfWidth, halfHeight, step * stepSize, step * stepSize);
 };
