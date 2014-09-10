@@ -2,6 +2,7 @@
 
 require "optparse"
 require "date"
+require "pry"
 
 options = {}
 
@@ -28,6 +29,10 @@ opt_parser = OptionParser.new do |opt|
     options[:no_open] = true
   end
 
+  opt.on("-f TITLE","--fork TITLE","Create from a copy of post with TITLE instead of from the blank template") do |forkTitle|
+    filename = Dir.glob("**/*" + forkTitle + ".html").first
+    options[:fork] = filename
+  end
 
   opt.on("-t TITLE","--title TITLE","Set post title (defaults to filename)") do |title|
     options[:title] = title
@@ -51,14 +56,14 @@ else
   title = options[:title] || ARGV[0]
   category = options[:category] || "flowchart"
   filename = Date.today.to_s + "-" + ARGV[0] + ".html"
-  template = "---" + "\n" +
+  header  = "---" + "\n" +
     "layout: processingjs" + "\n" +
     "title:  \"" + title.gsub(" ", "\ ") + "\"" + "\n" +
     "date:   " + Time.now.to_s + "\n" +
     "filename: \"" + filename + "\"" + "\n" +
     "categories: " + category + "\n" +
-    "---" + "\n" +
-    "\n" +
+    "---" + "\n"
+  template = "\n" +
     "processing.setup = function() {" + "\n" +
     "\n" +
     "};" + "\n" +
@@ -78,12 +83,17 @@ else
     "processing.mouseReleased = function() {" + "\n" +
     "\n" +
     "};"
+  if options[:fork]
+    output = header + %x( cat '#{options[:fork]}' ).split('---')[2]
+  else
+    output = header + template
+  end
   if options[:post]
-    %x( echo '#{template}' > _posts/#{filename} )
+    %x( echo '#{output}' > _posts/#{filename} )
     %x( subl _posts/#{filename} ) unless options[:no_open]
     puts "Created _posts/" + filename
   elsif options[:draft]
-    %x( echo '#{template}' > _drafts/#{filename} )
+    %x( echo '#{output}' > _drafts/#{filename} )
     %x( subl _drafts/#{filename} ) unless options[:no_open]
     puts "Created _drafts/" + filename
   else
