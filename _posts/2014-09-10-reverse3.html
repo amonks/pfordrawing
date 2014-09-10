@@ -1,6 +1,6 @@
 ---
 layout: processingjs
-title:  "reverse3"
+title:  "reverse engineering 3"
 date:   2014-09-10 18:01:40 -0500
 filename: "2014-09-10-reverse3.html"
 categories: reverse-engineering
@@ -15,8 +15,9 @@ processing.setup = function() {
 };
 
 processing.draw = function() {
-  r += 5;
-  processing.ellipse(halfWidth, r % height, r % height, r % height);
+  steps = height * 2;
+  r += 10;
+  processing.ellipse(halfWidth, r % steps, r % steps, r % steps);
 };
 
 processing.keyPressed = function() {
