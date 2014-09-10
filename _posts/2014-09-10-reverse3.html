@@ -6,12 +6,17 @@ filename: "2014-09-10-reverse3.html"
 categories: flowchart
 ---
 
-processing.setup = function() {
+var r = 0;
 
+processing.setup = function() {
+  processing.background(0);
+  processing.stroke(0);
+  processing.fill(255);
 };
 
 processing.draw = function() {
-
+  r++;
+  processing.ellipse(halfWidth, r % height, r % height, r % height);
 };
 
 processing.keyPressed = function() {
