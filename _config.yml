@@ -16,3 +16,4 @@ links:
 
 # Build settings
 markdown: kramdown
+timezone: America/Chicago
