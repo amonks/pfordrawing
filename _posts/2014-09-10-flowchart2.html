@@ -1,0 +1,56 @@
+---
+layout: processingjs
+title:  "flowchart2"
+date:   2014-09-10 19:27:22 -0500
+filename: "2014-09-10-flowchart2.html"
+categories: flowchart
+---
+
+var mouseLast = {};
+var mouseNow = {};
+
+processing.setup = function() {
+  // processing.width(800)
+  // processing.width(600)
+};
+
+processing.draw = function() {
+  mouseNow = {
+    x: processing.mouseX,
+    y: processing.mouseY,
+  };
+  processing.line(mouseLast.x, mouseLast.y, mouseNow.x, mouseNow.y);
+  mouseLast = mouseNow;
+};
+
+processing.keyPressed = function() {
+  console.log(processing.key.toString());
+  switch(processing.key.toString()) {
+    case 'r':
+      processing.stroke(255, 0, 0);
+      break;
+    case 'R':
+      processing.background(255, 0, 0);
+      break;
+    case 'g':
+      processing.stroke(0, 255, 0);
+      break;
+    case 'G':
+      processing.background(0, 255, 0);
+      break;
+    case 'b':
+      processing.stroke(0, 0, 255);
+      break;
+    case 'B':
+      processing.background(0, 0, 255);
+      break;
+  }
+};
+
+processing.mousePressed = function() {
+
+};
+
+processing.mouseReleased = function() {
+
+};

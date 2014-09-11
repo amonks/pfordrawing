@@ -1,0 +1,34 @@
+---
+layout: processingjs
+title:  "flowchart3"
+date:   2014-09-10 19:51:34 -0500
+filename: "2014-09-10-flowchart3.html"
+categories: flowchart
+---
+
+processing.setup = function() {
+
+};
+
+processing.draw = function() {
+  processing.line(halfWidth, 0, halfWidth, height);
+
+  if (processing.mouseX < halfWidth) {
+    var mapped_mouseX = processing.map(processing.mouseX, halfWidth, 0, halfWidth, width);
+    var mapped_pmouseX = processing.map(processing.pmouseX, halfWidth, 0, halfWidth, width);
+    processing.line(processing.pmouseX, processing.pmouseY, processing.mouseX, processing.mouseY);
+    processing.line(mapped_pmouseX, processing.pmouseY, mapped_mouseX, processing.mouseY);
+  }
+};
+
+processing.keyPressed = function() {
+  console.log(processing.key);
+};
+
+processing.mousePressed = function() {
+
+};
+
+processing.mouseReleased = function() {
+
+};

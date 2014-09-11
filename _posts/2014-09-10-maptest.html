@@ -1,0 +1,31 @@
+---
+layout: processingjs
+title:  "maptest"
+date:   2014-09-10 19:47:11 -0500
+filename: "2014-09-10-maptest.html"
+categories: test
+---
+
+var c = 0;
+processing.setup = function() {
+
+};
+
+processing.draw = function() {
+  var newbackgroundX = processing.map(processing.mouseX, 0, processing.width, 0, 255);
+  var newbackgroundY = processing.map(processing.mouseY, 0, processing.width, 0, 255);
+  processing.background(newbackgroundX, newbackgroundY, Math.sin(c/100) * 255);
+  c++;
+};
+
+processing.keyPressed = function() {
+  console.log(processing.key);
+};
+
+processing.mousePressed = function() {
+
+};
+
+processing.mouseReleased = function() {
+
+};
