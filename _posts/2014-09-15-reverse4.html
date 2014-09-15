@@ -1,0 +1,48 @@
+---
+layout: processingjs
+title:  "reverse engineering 4"
+date:   2014-09-15 18:03:26 -0500
+filename: "2014-09-15-reverse4.html"
+categories: flowchart
+---
+
+var multiplier = 1;
+var theta = processing.radians(5);
+var dist = 5;
+var hue = 180;
+
+processing.background(255, 255, 255);
+processing.colorMode(processing.HSB, 360, 100, 100);
+
+processing.setup = function() {
+
+};
+
+processing.draw = function() {
+  // debugger;
+  console.log(hue % 360, dist, multiplier);
+  processing.fill(hue % 360, 100, 100);
+  hue++;
+  processing.pushMatrix();
+  processing.translate(dist, dist);
+  processing.rotate(theta);
+  processing.rect(0,0,100,100);
+  processing.popMatrix();
+  dist = (Math.abs(dist) + (1 * multiplier));
+  theta = (Math.abs(theta) + processing.radians(41) * multiplier);
+
+};
+
+processing.keyPressed = function() {
+  multiplier = -multiplier;
+};
+
+processing.mousePressed = function() {
+
+};
+
+processing.mouseReleased = function() {
+  processing.colorMode(processing.RGB, 255);
+  processing.background(255);
+  processing.colorMode(processing.HSB, 360, 100, 100);
+};
