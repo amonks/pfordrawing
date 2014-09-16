@@ -1,0 +1,101 @@
+---
+layout: processingjs
+title:  "Monet"
+date:   2014-09-16 13:40:12 -0500
+filename: "2014-09-16-monet.html"
+categories: other
+---
+
+var video = document.createElement("video");
+video.setAttribute("style", "display:none;");
+video.setAttribute("id", "videoOutput");
+video.setAttribute("width", "500px");
+video.setAttribute("height", "660px");
+video.setAttribute("autoplay", "true");
+if(document.body!==null) document.body.appendChild(video);
+function init() {
+    if (navigator.webkitGetUserMedia) {
+        navigator.webkitGetUserMedia({video:true}, gotStream, noStream);
+        function gotStream(stream) {
+            video.src = webkitURL.createObjectURL(stream);
+            video.onerror = function () {
+                stream.stop();
+                streamError();
+            };
+        }
+        function noStream() {
+            alert('No camera available.');
+        }
+        function streamError() {
+            alert('Camera error.');
+        }
+    }
+}
+
+
+var ctx;
+var gridStep;
+var ellipticalPixel = false;
+var transp = 2;
+var img = processing.PImage.new;
+var nb = 20;
+
+
+processing.setup = function() {
+  init();
+  ctx = processing.externals.context;
+};
+
+processing.draw = function() {
+  processing.pushMatrix();
+  processing.translate(width, 0);
+  processing.scale(-1,1);
+  ctx.drawImage(video, 0, 0, width, height);
+  processing.popMatrix();
+
+  img = processing.get();
+  img.resize(nb, nb);
+  processing.noStroke();
+  for(var j = 0; j < nb; j++) {
+    for(var i = 0; i < nb; i++) {
+      processing.fill(img.get(i, j));
+      // processing.rect(100,100,100,100);
+      processing.rect(i * width / nb, j * height / nb, width / nb, height / nb);
+    }
+  }
+};
+
+processing.keyPressed = function() {
+  console.log(processing.key);
+};
+  
+processing.mousePressed = function() {
+
+};
+
+processing.mouseReleased = function() {
+
+};
+
+leapFunction = function() {
+  // If the Leap Motion library is available, set up our
+  // Leap loop. Will only be called if a controller is
+  // available, though
+
+  if (typeof Leap !== "undefined") {
+    // Setup Leap loop with frame callback function
+    console.log("LEAP!!");
+    Leap.loop(function (frame) {
+
+      // We just want to get the first hand
+
+      if (frame.hands.length > 0) {
+        var hand = frame.hands[0];
+
+        nb = hand.sphereCenter[1] / 3;
+      }
+    })
+  }
+}
+
+$.getScript("//cdnjs.cloudflare.com/ajax/libs/leapjs/0.6.1/leap.min.js", leapFunction);
