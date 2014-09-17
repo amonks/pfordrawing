@@ -47,6 +47,7 @@ var cursor = {
 processing.setup = function() {
   processing.background(255);
   processing.noStroke();
+  processing.frameRate( 120 );
   // init();
   // ctx = processing.externals.context;
   img = processing.loadImage(doge_image().url);
@@ -60,11 +61,11 @@ processing.draw = function() {
   //   processing.scale(-1,1);//mirror the video
   //   ctx.drawImage(video, 0, 0, width, height);
   // processing.popMatrix();
-  var color = img.get(Math.round(cursor.x), Math.round(cursor.y));
+  var color = img.get(Math.round(cursor.x), Math.round(cursor.z));
   // console.log (cursor, color);
   processing.fill(color);
   img.resize(width,0);
-  processing.ellipse(cursor.x, cursor.y, 30, 30);
+  processing.ellipse(cursor.x, cursor.z, Math.abs(cursor.y) / 2, Math.abs(cursor.y) / 2);
   // processing.image(img, 0, 0);
 };
 
@@ -95,8 +96,9 @@ leapFunction = function() {
         var hand = frame.hands[0];
 
         cursor = {
-          x: hand.sphereCenter[0] * 4 + halfWidth,
-          y: hand.sphereCenter[2] * 4 + halfHeight
+          x: hand.sphereCenter[0] * 4 + halfWidth,  // x axis, horizontal
+          y: hand.sphereCenter[1] * -1, // y axis, vertical, must be inverted
+          z: hand.sphereCenter[2] * 4 + halfHeight // z axis, depth
         };
       }
     }).use('screenPosition');
