@@ -1,0 +1,177 @@
+---
+layout: processingjs
+title:  "Cutaway"
+date:   2014-09-16 13:40:12 -0500
+filename: "2014-09-16-monet.html"
+categories: other
+---
+
+// var bStreaming = false;
+
+// var video = document.createElement("video");
+// video.setAttribute("style", "display:none;");
+// video.setAttribute("id", "videoOutput");
+// video.setAttribute("width", "500px");
+// video.setAttribute("height", "660px");
+// video.setAttribute("autoplay", "true");
+// if(document.body!==null) document.body.appendChild(video);
+// function init() {
+//     if (navigator.webkitGetUserMedia) {
+//         navigator.webkitGetUserMedia({video:true}, gotStream, noStream);
+//         function gotStream(stream) {
+//             video.src = webkitURL.createObjectURL(stream);
+//             bStreaming = true;
+//             video.onerror = function () {
+//                 stream.stop();
+//                 streamError();
+//             };
+//         }
+//         function noStream() {
+//             alert('No camera available.');
+//         }
+//         function streamError() {
+//             alert('Camera error.');
+//         }
+//     }
+// }
+
+
+// var ctx;
+var img = processing.PImage.new;
+
+var cursor = {
+  x: 0,
+  y: 0
+};
+
+processing.setup = function() {
+  processing.background(255);
+  processing.noStroke();
+  // init();
+  // ctx = processing.externals.context;
+  img = processing.loadImage(doge_image().url);
+  console.log(width, height);
+  img.resize(width, 0);
+};
+
+processing.draw = function() {
+  // processing.pushMatrix();
+  //   processing.translate(width,0);
+  //   processing.scale(-1,1);//mirror the video
+  //   ctx.drawImage(video, 0, 0, width, height);
+  // processing.popMatrix();
+  var color = img.get(Math.round(cursor.x), Math.round(cursor.y));
+  // console.log (cursor, color);
+  processing.fill(color);
+  img.resize(width,0);
+  processing.ellipse(cursor.x, cursor.y, 30, 30);
+  // processing.image(img, 0, 0);
+};
+
+processing.keyPressed = function() {
+  console.log(processing.key);
+};
+  
+processing.mousePressed = function() {
+
+};
+
+processing.mouseReleased = function() {
+
+};
+
+leapFunction = function() {
+  // If the Leap Motion library is available, set up our
+  // Leap loop. Will only be called if a controller is
+  // available, though
+
+  if (typeof Leap !== "undefined") {
+
+    // Setup Leap loop with frame callback function
+    console.log("LEAP!!");
+    Leap.loop(function (frame) {
+
+      if (frame.hands.length > 0) {
+        var hand = frame.hands[0];
+
+        cursor = {
+          x: hand.sphereCenter[0] * 4 + halfWidth,
+          y: hand.sphereCenter[2] * 4 + halfHeight
+        };
+      }
+    }).use('screenPosition');
+  }
+};
+
+loadPlugins = function() {
+  $.getScript("//js.leapmotion.com/leap-plugins-0.1.7.min.js", leapFunction);
+} ;
+$.getScript("//cdnjs.cloudflare.com/ajax/libs/leapjs/0.6.1/leap.min.js", loadPlugins);
+
+
+// function to return an object with a doge image url, a height, and a width
+doge_image = function() {
+    doge_images = [
+        {
+          url: "andrew-monks.png"
+        },
+        // {
+        //     url: "shiba-inu_01_lg.jpg",
+        //     width: 622,
+        //     height: 352
+        // }, 
+        // {
+        //     url: "Shiba-Inu-Main.jpg",
+        //     width: 461,
+        //     height: 400
+        // }, 
+        {
+            url: "shiba-inu-puppies-pictures.jpg",
+            width: 922,
+            height: 922
+        }, {
+            url: "001.jpg",
+            width: 1023,
+            height: 1024
+        }, {
+            url: "Taisen_Shikaki_Inu.jpg",
+            width: 800,
+            height: 994
+        }, {
+            url: "running-shiba-inu-dog-photo.jpg",
+            width: 1440,
+            height: 934
+        }, {
+            url: "12_11_10-031.jpg",
+            width: 1600,
+            height: 1200
+        }, {
+            url: "shiba-inu-21.jpg",
+            width: 1000,
+            height: 1000
+        }, {
+            url: "Japanese_shiba_inu__shiba_dog__by_MogamiJ.jpg",
+            width: 1024,
+            height: 768
+        }, {
+            url: "1024px-Taka_Shiba.jpg",
+            width: 1024,
+            height: 768
+        }, {
+            url: "c09.jpg",
+            width: 1280,
+            height: 960
+        },
+        // {
+        //     url: "shiba-inu_04_lg.jpg",
+        //     width: 622,
+        //     height: 352
+        // }
+    ];
+    return random_from_array(doge_images);
+};
+
+// function to return a random member of a given array
+random_from_array = function(array) {
+    return array[Math.floor(Math.random() * array.length)];
+};
