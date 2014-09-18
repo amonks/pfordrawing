@@ -5,9 +5,11 @@ date:   2014-09-17 18:12:21 -0500
 filename: "2014-09-17-mousecam.html"
 categories: other
 info: |
+  Draw whatever the camera sees by dragging the mouse.
+
   Press any key to pause or resume the camera.
 
-  Draw with the mouse.
+  Move the mouse faster or slower for a smaller or larger brush.
 
   If you happen to have a [LeapMotion](http://leapmotion.com), try [cutCam](/cutcam)
 ---
@@ -94,7 +96,8 @@ function drawerSketch(processing) {
       var color = videoInstance.get(processing.mouseX, processing.mouseY);
       // console.log (cursor, color);
       processing.fill(color);
-      processing.ellipse(processing.mouseX, processing.mouseY, 40, 40);
+      var mouseDist = processing.dist(processing.pmouseX, processing.pmouseY, processing.mouseX, processing.mouseY);
+      processing.ellipse(processing.mouseX, processing.mouseY, mouseDist, mouseDist);
     }
   };
 
