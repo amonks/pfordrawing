@@ -1,22 +1,24 @@
 ---
 layout: emptypjs
-title:  "cutCam"
+title:  "mouseCam"
 date:   2014-09-17 18:12:21 -0500
-filename: "2014-09-17-cutcam.html"
+filename: "2014-09-17-mousecam.html"
 categories: other
 info: |
   Press any key to pause or resume the camera.
 
-  Draw by waving your hand around. Move your hand up and down for a smaller or larger brush.
+  Draw with the mouse.
 
-  This app requires a [LeapMotion](http://leapmotion.com). If you do not have one, try [mouseCam](/mousecam)
+  If you happen to have a [LeapMotion](http://leapmotion.com), try [cutCam](/cutcam)
 ---
+
 
 var width = window.innerWidth;
 var height = $('body').height() - 3;
 var halfWidth = width / 2;
 var halfHeight = height / 2;
 var bPaused = false;
+var bMouse = false;
 
 function videoSketch(processing) {
   processing.size(width, height);
@@ -74,7 +76,6 @@ function videoSketch(processing) {
 function drawerSketch(processing) {
   // set size
   processing.size(width, height);
-  {{content}}
 
   var cursor = {
     x: 0,
@@ -85,66 +86,36 @@ function drawerSketch(processing) {
     processing.background(255);
     processing.noStroke();
     processing.frameRate( 120 );
-    // init();
-    // ctx = processing.externals.context;
     console.log(width, height);
   };
 
   processing.draw = function() {
-    var color = videoInstance.get(Math.round(cursor.x), Math.round(cursor.z));
-    // console.log (cursor, color);
-    processing.fill(color);
-    processing.ellipse(cursor.x, cursor.z, Math.abs(cursor.y) / 2, Math.abs(cursor.y) / 2);
-    // processing.image(img, 0, 0);
+    if (bMouse === true) {
+      var color = videoInstance.get(processing.mouseX, processing.mouseY);
+      // console.log (cursor, color);
+      processing.fill(color);
+      processing.ellipse(processing.mouseX, processing.mouseY, 40, 40);
+    }
   };
 
   processing.keyPressed = function() {
     console.log(processing.key);
     if (bPaused === true) {
-      bPaused = false
+      bPaused = false;
       console.log("play");
     } else {
-      bPaused = true
+      bPaused = true;
       console.log("pause");
     }
   };
     
   processing.mousePressed = function() {
-
+    bMouse = true;
   };
 
   processing.mouseReleased = function() {
-
+    bMouse = false;
   };
-
-  leapFunction = function() {
-    // If the Leap Motion library is available, set up our
-    // Leap loop. Will only be called if a controller is
-    // available, though
-
-    if (typeof Leap !== "undefined") {
-
-      // Setup Leap loop with frame callback function
-      console.log("LEAP!!");
-      Leap.loop(function (frame) {
-
-        if (frame.hands.length > 0) {
-          var hand = frame.hands[0];
-
-          cursor = {
-            x: hand.sphereCenter[0] * 4 + halfWidth,  // x axis, horizontal
-            y: hand.sphereCenter[1] * -1, // y axis, vertical, must be inverted
-            z: hand.sphereCenter[2] * 4 + halfHeight // z axis, depth
-          };
-        }
-      })
-    }
-  };
-
-  loadPlugins = function() {
-    $.getScript("//js.leapmotion.com/leap-plugins-0.1.7.min.js", leapFunction);
-  } ;
-  $.getScript("//cdnjs.cloudflare.com/ajax/libs/leapjs/0.6.1/leap.min.js", loadPlugins);
 
 }
 
@@ -154,3 +125,4 @@ var processingInstance = new Processing(document.getElementById('sketch'), drawe
 
 // attach the sketch function to the canvas
 var videoInstance = new Processing(document.getElementById('video'), videoSketch);
+
