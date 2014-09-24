@@ -12,6 +12,7 @@ var pointLength = height / 3;
 function drawStar() {
   var color = processing.random(255);
   processing.stroke(color);
+  processing.strokeWeight(4);
   processing.background(processing.map(color, 0, 255, 255, 0));
   for (var i = 0; i <= starPoints; i++) {
     var theta = i * (360 / starPoints);
