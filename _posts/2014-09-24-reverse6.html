@@ -1,0 +1,41 @@
+---
+layout: processingjs
+title:  "Reverse Engineering 6"
+date:   2014-09-24 18:08:50 -0500
+filename: "2014-09-24-reverse6.html"
+categories: reverse-engineering
+---
+
+var barCount = 50;
+
+function drawBars() {
+  console.log('drawing');
+  barHeight = height / barCount;
+  offset = Math.floor(Math.random() * 360)
+  for (var i = 0; i <= barCount; i++) {
+    processing.fill((i * 15 + offset) % 360, 100, 100);
+    processing.rect(0 , Math.floor(i * barHeight), width, Math.floor(i * barHeight + barHeight));
+  }
+}
+
+processing.setup = function() {
+  processing.noStroke();
+  processing.colorMode(processing.HSB, 360, 100, 100);
+  drawBars();
+};
+
+processing.draw = function() {
+};
+
+processing.keyPressed = function() {
+  console.log(processing.key);
+  drawBars();
+};
+
+processing.mousePressed = function() {
+
+};
+
+processing.mouseReleased = function() {
+
+};

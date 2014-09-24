@@ -1,0 +1,46 @@
+---
+layout: processingjs
+title:  "Reverse Engineering 6a"
+date:   2014-09-24 18:36:02 -0500
+filename: "2014-09-24-reverse6a.html"
+categories: reverse-engineering
+---
+
+var starPoints = 50;
+var pointLength = height / 3;
+
+function drawStar() {
+  var color = processing.random(255);
+  processing.stroke(color);
+  processing.background(processing.map(color, 0, 255, 255, 0));
+  for (var i = 0; i <= starPoints; i++) {
+    var theta = i * (360 / starPoints);
+    console.log(processing.radians(theta));
+    processing.pushMatrix();
+    processing.translate(halfWidth, halfHeight);
+    processing.rotate(processing.radians(theta));
+    processing.line(0,0,pointLength,0);
+    processing.popMatrix();
+  }
+}
+
+processing.setup = function() {
+  drawStar();
+};
+
+processing.draw = function() {
+};
+
+processing.keyPressed = function() {
+  console.log(processing.key);
+  drawStar();
+};
+
+processing.mousePressed = function() {
+
+};
+
+processing.mouseReleased = function() {
+
+};
+
