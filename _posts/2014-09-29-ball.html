@@ -1,0 +1,133 @@
+---
+layout: processingjs
+title:  "Ball"
+date:   2014-09-29 18:14:04 -0500
+filename: "2014-09-29-ball.html"
+categories: other
+info: |
+  Click and hold the mouse to throw balls.
+
+  Press the T key to toggle trails.
+
+  Press the S key to toggle squares.
+---
+
+var mouseDown = false;
+var bTrails = false;
+var bRect = false;
+
+function Vector(x, y) {
+  this.x = x;
+  this.y = y;
+  this.add = function(vector) {
+    this.x += vector.x;
+    this.y += vector.y;
+  };
+  this.times = function(vector) {
+    this.x *= vector.x;
+    this.y *= vector.y;
+  };
+}
+
+
+throwBall = function() {
+  var position = new Vector(processing.mouseX, processing.mouseY);
+  var velocity = new Vector(Math.floor(Math.random() * 20) - 10, Math.floor(Math.random() * 20) - 10);
+  var radius = Math.floor(Math.random() * 50) + 50;
+  var ball = new Ball(position, velocity, radius);
+  balls.push(ball);
+};
+
+function Ball(position, velocity, radius) {
+  this.acceleration = new Vector(0,0.5);
+  this.velocity = velocity;
+  this.radius = radius;
+  this.position = position;
+  this.hue = Math.random() * 360;
+
+  this.is_in_bounds = function() {
+    if (this.position.x > width || this.position.x < 0) {
+      return false;
+    } else {
+      return true;
+    }
+  };
+
+  this.update = function() {
+    // this.acceleration.add(this.gravity);
+    this.velocity.add(this.acceleration);
+    this.position.add(this.velocity);
+    if (Math.abs(this.velocity.y) < 0.1) {
+      this.velocity.y = 0;
+      // this.acceleration = new Vector(0,0);
+    }
+    // bounce
+    if (this.position.y > height - this.radius) {
+      this.position.y = height - this.radius;
+      this.velocity.times(new Vector(0.9, -0.8));
+    }
+  };
+  this.draw = function() {
+    processing.fill(this.hue, 50, 100);
+    if (bRect === true) {
+      processing.rect(this.position.x, this.position.y, this.radius, this.radius);
+    } else {
+      processing.ellipse(this.position.x, this.position.y, this.radius, this.radius);
+    }
+  };
+}
+
+var balls = [];
+
+processing.setup = function() {
+  processing.noStroke();
+  processing.colorMode(processing.HSB, 360, 100, 100);
+  processing.background(0,0,0);
+};
+
+processing.draw = function() {
+  if (bTrails === false) {
+    processing.background(0,0,0);
+  }
+
+  if (mouseDown === true) {
+    throwBall();
+  }
+
+  for (var i = balls.length - 1; i >= 0; i--) {
+    balls[i].update();
+    if (balls[i].is_in_bounds() === false) {
+      console.log("deleted");
+      balls.splice(i,1);
+    } else {
+      balls[i].draw();
+    }
+  }
+
+};
+
+processing.keyPressed = function() {
+  switch(processing.key.toString()) {
+    case 't':
+    case 'T':
+      bTrails = !bTrails;
+      console.log("trails: ", bTrails);
+      break;
+    case 's':
+    case 'S':
+      bRect = !bRect;
+      console.log("rectangles: ", bRect);
+      break;
+  }
+};
+
+processing.mousePressed = function() {
+  for (var i = 0; i <= 5; i++) {
+    throwBall();
+  }
+  mouseDown = true;
+};
+
+processing.mouseReleased = function() {
+  mouseDown = false;
+};
