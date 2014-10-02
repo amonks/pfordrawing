@@ -1,0 +1,64 @@
+---
+layout: processingjs
+title:  "reverse7"
+date:   2014-10-01 19:23:57 -0500
+filename: "2014-10-01-reverse7.html"
+categories: reverse-engineering
+---
+
+var bGridState = true;
+
+var gridSize = 40;
+var ellipsesWide = Math.floor(width / gridSize);
+var ellipsesTall = Math.floor(height / gridSize);
+
+processing.draw = function() {
+  processing.background(255);
+  for(var i = 0; i <= ellipsesWide; i++) {
+    for(var j = 0; j <= ellipsesTall; j++) {
+      var x = i * gridSize;
+      var y = j * gridSize;
+      var thisDist = processing.dist(x, y, processing.mouseX, processing.mouseY);
+      if (bGridState === true) {
+        gridState(x, y, thisDist);
+      } else {
+        turnState(x, y, thisDist);
+      }
+    }
+  }
+};
+
+function gridState(x, y, dist) {
+  var saturation = processing.map(dist, 0, width, 0, 100);
+  processing.fill(0, saturation, 100);
+  processing.rect(x, y, gridSize, gridSize);
+}
+
+function turnState(x, y, dist) {
+  var rotation = processing.map(dist, 0, width, 0, 1080);
+  processing.fill(0, 100, 100);
+  processing.pushMatrix();
+    processing.translate(x,y);
+    processing.rotate(processing.radians(rotation));
+  processing.rect(0, 0, gridSize / 2, gridSize / 2);
+  processing.popMatrix();
+
+
+}
+
+processing.setup = function() {
+  processing.colorMode(processing.HSB, 360, 100, 100);
+};
+
+processing.keyPressed = function() {
+  bGridState = !bGridState;
+  console.log("grid?", bGridState);
+};
+
+processing.mousePressed = function() {
+
+};
+
+processing.mouseReleased = function() {
+
+};
