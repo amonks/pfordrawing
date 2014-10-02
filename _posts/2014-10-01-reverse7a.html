@@ -1,0 +1,45 @@
+---
+layout: processingjs
+title:  "reverse7a"
+date:   2014-10-01 19:07:58 -0500
+filename: "2014-10-01-reverse7a.html"
+categories: reverse-engineering
+---
+
+var gridSize = 20;
+var ellipsesWide = Math.floor(width / gridSize);
+var ellipsesTall = Math.floor(height / gridSize);
+
+function drawEllipses() {
+  processing.background(255);
+  for(var i = 0; i <= ellipsesWide; i++) {
+    for(var j = 0; j <= ellipsesTall; j++) {
+      var x = i * gridSize;
+      var y = j * gridSize;
+      var thisEllipseDist = processing.dist(x, y, processing.mouseX, processing.mouseY);
+      var thisEllipseSize = processing.map(thisEllipseDist, 0, width, 5, 4 * gridSize);
+      processing.ellipse(x, y, thisEllipseSize, thisEllipseSize);
+    }
+  }
+};
+
+
+processing.setup = function() {
+  processing.fill(255, 0, 0, 50);
+  processing.noStroke();
+};
+
+processing.draw = function() {
+  drawEllipses();
+};
+
+processing.keyPressed = function() {
+  console.log(processing.key);
+};
+
+processing.mousePressed = function() {
+};
+
+processing.mouseReleased = function() {
+
+};
