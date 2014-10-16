@@ -116,7 +116,7 @@ processing.draw = function() {
     ponies[pony].update();
     ponies[pony].draw();
   }
-  if (processing.frameCount % 3 === 0) {
+  if (processing.frameCount % 2 === 0) {
     if (processing.frameCount < 500) {
       newPony(new Vector(halfWidth, halfHeight));
     }

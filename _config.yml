@@ -13,6 +13,8 @@ links:
     url: "blank.txt"
   - name: "license"
     url: "LICENSE.html"
+  - name: "Nabu: Arbitrary-Form Grapher"
+    url: "http://nabu.monks.co/"
 
 # Build settings
 markdown: kramdown
