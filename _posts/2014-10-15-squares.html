@@ -1,0 +1,149 @@
+---
+layout: processingjs
+title:  "Squares"
+date:   2014-10-15 18:09:51 -0500
+filename: "2014-10-15-reverse8.html"
+categories: other
+info: |
+  Click to make squares.
+
+  Press `t` to switch to fancy transparent squares.
+
+  Press `c` to clear.
+---
+
+var bTrans = false;
+var bMouse = false;
+var ponies = [];
+
+function Vector(x, y) {
+  this.x = x;
+  this.y = y;
+  this.add = function(vector) {
+    this.x += vector.x;
+    this.y += vector.y;
+  };
+  this.times = function(vector) {
+    this.x *= vector.x;
+    this.y *= vector.y;
+  };
+}
+
+function Pony(position, velocity, rotVelocity) {
+  this.acceleration = new Vector(0,0.5);
+  this.velocity = velocity;
+  this.radius = 300;
+  this.position = position;
+  this.hue = Math.random() * 360;
+  this.rotation = 0;
+  this.rotVelocity = rotVelocity;
+
+  this.is_in_bounds = function() {
+    if (this.position.x > width || this.position.x < 0) {
+      return false;
+    } else {
+      return true;
+    }
+  };
+
+  this.update = function() {
+    this.position.add(this.velocity);
+    this.rotation += this.rotVelocity;
+    this.bounce();
+  };
+  this.draw = function() {
+    if (bTrans === true) {
+      processing.fill(this.hue, 50, 100, 0.5);
+    } else {
+      processing.fill(this.hue, 50, 100, 1);
+    };
+    processing.pushMatrix();
+      processing.translate(this.position.x, this.position.y);
+      processing.rotate(processing.radians(this.rotation));
+      processing.translate(this.radius / -2, this.radius / -2);
+      processing.rect(0,0, this.radius, this.radius);
+    processing.popMatrix();
+  };
+  this.bounce = function() {
+    // bounce
+    if (this.position.y > height) {
+      this.position.y = height;
+      this.velocity.times(new Vector(1, -1));
+      this.damage();
+    }
+    if (this.position.y < 0) {
+      this.position.y = 0;
+      this.velocity.times(new Vector(1, -1));
+      this.damage();
+    }
+    if (this.position.x > width) {
+      this.position.x = width;
+      this.velocity.times(new Vector(-1, 1));
+      this.damage();
+    }
+    if (this.position.x < 0) {
+      this.position.x = 0;
+      this.velocity.times(new Vector(-1, 1));
+      this.damage();
+    }
+  };
+  this.damage = function() {
+    this.rotVelocity = - this.rotVelocity;
+  };
+}
+
+processing.setup = function() {
+  processing.noStroke();
+  processing.textSize(32);
+  processing.colorMode(processing.HSB, 360, 100, 100, 1);
+
+
+};
+
+newPony = function(pos) {
+  var position = pos;
+  var velocity = new Vector(Math.random() * 10 - 5, Math.random() * 10 - 5);
+  var rotVelocity = 2;
+  var hue = 200;
+  var pony = new Pony(position, velocity, rotVelocity);
+  console.log(pony);
+  ponies.push(pony);
+};
+
+processing.draw = function() {
+  processing.background(0,0,100);
+  for (var pony in ponies) {
+    ponies[pony].update();
+    ponies[pony].draw();
+  }
+  if (processing.frameCount % 3 === 0) {
+    if (processing.frameCount < 500) {
+      newPony(new Vector(halfWidth, halfHeight));
+    }
+    if (bMouse === true) {
+      newPony(new Vector(processing.mouseX, processing.mouseY));
+    }
+  }
+};
+
+processing.keyPressed = function() {
+  switch(processing.key.toString()) {
+    case 'c':
+    case 'C':
+      ponies = [];
+      break;
+    case 't':
+    case 'T':
+      bTrans = !bTrans;
+      break;
+  }
+  console.log(processing.key);
+};
+
+processing.mousePressed = function() {
+  bMouse = true;
+};
+
+processing.mouseReleased = function() {
+  bMouse = false;
+};
