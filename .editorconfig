@@ -36,6 +36,11 @@ indent_size = 2
 [*.jade]
 trim_trailing_whitespace = false
 
+# Data
+[*.tsv]
+indent_style = tab
+indent_size = 4
+
 
 # # filename example
 # [{package.json,.travis.yml}]

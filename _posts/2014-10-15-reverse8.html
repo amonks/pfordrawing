@@ -1,0 +1,180 @@
+---
+layout: processingjs
+title:  "reverse8"
+date:   2014-10-15 18:09:51 -0500
+filename: "2014-10-15-reverse8.html"
+categories: reverse-engineering
+info: |
+  Click on a pony to shoot it.
+
+  Press `p` to add a new pony.
+
+  Press `s` to switch to slow-computer-mode.
+
+---
+
+var bSquares = false;
+var ponies = [];
+var img = processing.loadImage('/images/pony.png')
+
+function Vector(x, y) {
+  this.x = x;
+  this.y = y;
+  this.add = function(vector) {
+    this.x += vector.x;
+    this.y += vector.y;
+  };
+  this.times = function(vector) {
+    this.x *= vector.x;
+    this.y *= vector.y;
+  };
+}
+
+function Pony(position, velocity, rotVelocity) {
+  this.acceleration = new Vector(0,0.5);
+  this.velocity = velocity;
+  this.radius = 300;
+  this.position = position;
+  this.hue = Math.random() * 360;
+  this.rotation = 0;
+  this.health = 50;
+  this.rotVelocity = rotVelocity;
+  this.state = 0;
+
+  this.is_in_bounds = function() {
+    if (this.position.x > width || this.position.x < 0) {
+      return false;
+    } else {
+      return true;
+    }
+  };
+
+  this.update = function() {
+    this.position.add(this.velocity);
+    this.rotation += this.rotVelocity;
+    this.bounce();
+  };
+  this.draw = function() {
+    if (this.health > 0) {
+      if (this.state <= 0) {
+        processing.tint(this.hue, 50, 100);
+        processing.fill(this.hue, 50, 100);
+        this.state = 0;
+      } else {
+        processing.tint(0, 50, 100);
+        processing.fill(0, 50, 100);
+        this.state--;
+      }
+      processing.pushMatrix();
+        processing.translate(this.position.x, this.position.y);
+        processing.rotate(processing.radians(this.rotation));
+        processing.translate(this.radius / -2, this.radius / -2);
+        if (bSquares === false) {
+          processing.image(img, 0,0, this.radius, this.radius);
+        } else {
+          processing.rect(0,0, this.radius, this.radius);
+        }
+      processing.popMatrix();
+    }
+  };
+  this.drawHealth = function(point) {
+    processing.fill(this.hue, 50, 100);
+    if (this.health <= 0) {
+      processing.text("RIP PONY", point.x, point.y);
+    } else {
+      processing.text("health: " + this.health, point.x, point.y);
+    }
+  };
+  this.checkHit = function(point) {
+    if (point.x < this.position.x + this.radius / 2 && point.x > this.position.x - this.radius / 2) {
+      if (point.y < this.position.y + this.radius / 2 && point.y > this.position.y - this.radius / 2) {
+        return true;
+      }
+    }
+    return false;
+  }
+  this.bounce = function() {
+    // bounce
+    if (this.position.y > height) {
+      this.position.y = height;
+      this.velocity.times(new Vector(1, -1));
+      this.damage(1);
+    }
+    if (this.position.y < 0) {
+      this.position.y = 0;
+      this.velocity.times(new Vector(1, -1));
+      this.damage(1);
+    }
+    if (this.position.x > width) {
+      this.position.x = width;
+      this.velocity.times(new Vector(-1, 1));
+      this.damage(1);
+    }
+    if (this.position.x < 0) {
+      this.position.x = 0;
+      this.velocity.times(new Vector(-1, 1));
+      this.damage(1);
+    }
+  };
+  this.damage = function(amount) {
+    this.health = this.health - amount;
+    this.rotVelocity = - this.rotVelocity;
+    this.state = 10;
+  };
+}
+
+processing.setup = function() {
+  processing.textSize(32);
+  processing.colorMode(processing.HSB, 360, 100, 100);
+
+  // newPony();
+  // newPony();
+  newPony();
+
+};
+
+newPony = function() {
+  var position = new Vector(halfWidth, halfHeight);
+  var velocity = new Vector(Math.random() * 10 - 5, Math.random() * 10 - 5);
+  var rotVelocity = 2;
+  var hue = 200;
+  var pony = new Pony(position, velocity, rotVelocity);
+  console.log(pony);
+  ponies.push(pony);
+}
+
+processing.draw = function() {
+  processing.background(0,0,100);
+  for (var pony in ponies) {
+    ponies[pony].update();
+    ponies[pony].draw();
+    ponies[pony].drawHealth(new Vector(20, 80 + 3 * (pony + 1)));
+  }
+};
+
+processing.keyPressed = function() {
+  switch(processing.key.toString()) {
+    case 'p':
+    case 'P':
+      newPony();
+      break;
+    case 's':
+    case 'S':
+      bSquares = !bSquares;
+      break;
+  }
+  console.log(processing.key);
+};
+
+processing.mousePressed = function() {
+
+};
+
+processing.mouseReleased = function() {
+  for (var pony in ponies) {
+    var hit = ponies[pony].checkHit(new Vector(processing.mouseX, processing.mouseY))
+    if (hit === true) {
+      ponies[pony].damage(5);
+    }
+  }
+};
