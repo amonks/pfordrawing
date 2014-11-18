@@ -1,0 +1,112 @@
+---
+layout: processingjs
+title:  "Reversalator6000"
+date:   2014-11-17 18:17:49 -0600
+filename: "2014-11-17-Reversalator6000.html"
+categories: flowchart
+---
+
+
+var img = processing.loadImage('/images/ufo.png');
+var space = processing.loadImage('/images/space.jpg');
+var bg;
+
+var lifeTime = 100
+var balls = [];
+var ballSerial = 0;
+
+function Vector(x, y) {
+  this.x = x;
+  this.y = y;
+  this.add = function(vector) {
+    this.x += vector.x;
+    this.y += vector.y;
+  };
+  this.times = function(vector) {
+    this.x *= vector.x;
+    this.y *= vector.y;
+  };
+}
+
+
+throwBall = function() {
+  var position = new Vector(processing.mouseX, processing.mouseY);
+  var ball = new Ball(position);
+};
+
+function Space() {
+  this.width = space.width;
+  this.height = space.height;
+  this.count = 0;
+
+  this.draw = function() {
+    this.count ++;
+    if (this.count > width) {
+      this.count = 0;
+    }
+    var x1 = this.count;
+    var x2 = this.count - space.width;
+    processing.image(space, x1, 0, this.width, this.height);
+    processing.image(space, x2, 0, this.width, this.height);
+    console.log(x1, x2);
+  }
+}
+
+function Ball(position) {
+  console.log('making ball');
+  this.lifespan = lifeTime;
+  this.position = position;
+
+  if (this.position.x < halfWidth) {
+    this.direction = 4;
+  } else {
+    this.direction = -1;
+  }
+
+
+  this.draw = function() {
+    this.position.y += 1;
+    this.position.x += this.direction;
+    this.lifespan -= 1;
+    if (this.lifespan <= 0) {
+      console.log('deleting');
+      for (var b in balls) {
+        var ball = balls[b];
+        if (ball.serial === this.serial) {
+          balls.splice(b, 1);
+        }
+      }
+    } else {
+      var drawSize = processing.map(this.lifespan, 30, 0, lifeTime, 0);
+      processing.image(img, this.position.x - (img.width / 2), this.position.y - (img.height / 2), drawSize, drawSize);
+    }
+  };
+
+  this.serial = ballSerial;
+  ballSerial ++;
+
+  balls.push(this);
+}
+
+processing.setup = function() {
+  bg = new Space();
+};
+
+processing.draw = function() {
+
+  bg.draw();
+  for (var i = balls.length - 1; i >= 0; i--) {
+    balls[i].draw();
+  }
+
+};
+
+processing.mousePressed = function() {
+  throwBall();
+  mouseDown = true;
+};
+
+processing.mouseReleased = function() {
+  mouseDown = false;
+};
+
