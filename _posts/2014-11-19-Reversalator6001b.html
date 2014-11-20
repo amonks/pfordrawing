@@ -1,8 +1,8 @@
 ---
 layout: processingjs
-title:  "Reversalator6000"
-date:   2014-11-17 18:17:49 -0600
-filename: "2014-11-17-Reversalator6000.html"
+title:  "Reversalator6001B"
+date:   2014-11-19 18:17:49 -0600
+filename: "2014-11-19-Reversalator6001b.html"
 categories: reverse-engineering
 info: |
   Click to make ufos 
@@ -13,7 +13,11 @@ info: |
 
 var img = processing.loadImage('/images/ufo.png');
 var space = processing.loadImage('/images/space.jpg');
+var mountains = processing.loadImage('/images/mountains.png');
 var bg;
+
+var goingLeft = false;
+var goingRight = false;
 
 var lifeTime = 100
 var ufos = [];
@@ -38,26 +42,44 @@ launchUFO = function() {
   var ufo = new UFO(position);
 };
 
-function Space() {
-  this.width = space.width;
-  this.height = space.height;
+function Parallax(img, speed) {
+  this.speed = speed;
+  this.width = img.width;
+  this.height = img.height;
   this.count = 0;
 
+  this.right = function() {
+    this.count -= this.speed;
+  }
+
+  this.left = function() {
+    this.count += this.speed;
+  }
+
   this.draw = function() {
-    this.count ++;
-    if (this.count > width) {
+    if (this.count > img.width) {
       this.count = 0;
     }
+    if (this.count < 0) {
+      this.count = img.width;
+    }
     var x1 = this.count;
-    var x2 = this.count - space.width;
-    processing.image(space, x1, 0, this.width, this.height);
-    processing.image(space, x2, 0, this.width, this.height);
-    console.log(x1, x2);
+    var x2 = this.count - img.width;
+    var x3 = this.count + img.width;
+    if (height > this.height) {
+      var y  = height - img.height;
+    } else {
+      var y = 0;
+    }
+    processing.image(img, x1, y, img.width, img.height);
+    processing.image(img, x2, y, img.width, img.height);
+    processing.image(img, x3, y, img.width, img.height);
   }
 }
 
 function UFO(position) {
   console.log('making ufo');
+  this.millis = processing.millis();
   this.lifespan = lifeTime;
   this.position = position;
 
@@ -73,7 +95,6 @@ function UFO(position) {
     this.position.x += this.direction;
     this.lifespan -= 1;
     if (this.lifespan <= 0) {
-      console.log('deleting');
       for (var b in ufos) {
         var ufo = ufos[b];
         if (ufo.serial === this.serial) {
@@ -83,6 +104,8 @@ function UFO(position) {
     } else {
       var drawSize = processing.map(this.lifespan, 30, 0, lifeTime, 0);
       processing.image(img, this.position.x, this.position.y, drawSize, drawSize);
+      processing.textSize(drawSize / 2);
+      processing.text("millis " + this.millis, this.position.x, this.position.y);
     }
   };
 
@@ -93,17 +116,56 @@ function UFO(position) {
 }
 
 processing.setup = function() {
-  bg = new Space();
+  processing.textAlign(processing.CENTER, processing.CENTER);
+  bg = new Parallax(space, 1);
+  mtns = new Parallax(mountains, 3);
 };
 
 processing.draw = function() {
   processing.imageMode(processing.CORNER);
+  if (goingLeft) {
+    bg.left();
+    mtns.left();
+  } else if (goingRight) {
+    bg.right();
+    mtns.right();
+  }
   bg.draw();
+  mtns.draw();
   processing.imageMode(processing.CENTER);
   for (var i = ufos.length - 1; i >= 0; i--) {
     ufos[i].draw();
   }
+};
 
+processing.keyPressed = function() {
+  switch(processing.key.toString()) {
+    case 'a':
+    case 'A':
+      goingLeft = true;
+      break;
+    case 'e':
+    case 'E':
+    case 'd':
+    case 'D':
+      goingRight = true;
+      break;
+  }
+};
+
+processing.keyReleased = function() {
+  switch(processing.key.toString()) {
+    case 'a':
+    case 'A':
+      goingLeft = false;
+      break;
+    case 'e':
+    case 'E':
+    case 'd':
+    case 'D':
+      goingRight = false;
+      break;
+  }
 };
 
 processing.mousePressed = function() {
